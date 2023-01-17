@@ -2,7 +2,7 @@
 services:
   apollo-server:
     build:
-      context: ./
-      dockerfile: Dockerfile
+      context: ../apps/backend
+      dockerfile: ../../infra/backend.Dockerfile
     ports:
       - 4000:4000
