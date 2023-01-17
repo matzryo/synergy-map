@@ -1,3 +1,5 @@
+# 環境共通の設定
+#
 # This Docker Compose file can be used to quickly bootup Dgraph Zero
 # and Alpha in different Docker containers.
 
@@ -7,8 +9,13 @@
 # NOTE: whitelisting is set to private address ranges, this is ONLY for a local setup
 #       please change it accordingly for your production setup
 #       more here https://dgraph.io/docs/deploy/dgraph-administration/#whitelisting-admin-operations
-
 services:
+  apollo-server:
+    build:
+      context: ../apps/backend
+      dockerfile: ../../infra/backend.Dockerfile
+    ports:
+      - 4000:4000
   zero:
     image: dgraph/dgraph:latest
     volumes:
