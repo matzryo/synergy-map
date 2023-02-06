@@ -1,0 +1,34 @@
+enum Color {
+    WHITE
+    BLUE
+    BLACK
+    GREEN
+    RED
+}
+
+enum Rarity {
+    MYTHIC
+    RARE
+    UNCOMMON
+    COMMON
+}
+
+type MtgCard {
+    id: ID!
+    nameJa: String
+    nameEn: String!
+    imageUrlJa: String
+    imageUrlEn: String!
+    colors: [Color]!
+    rarity: Rarity!
+    setcode: String!
+    collectorNumber: String!
+}
+
+type Synergy {
+    id: ID!
+    cards: [MtgCard!]!
+    weight: Float
+    explanationJa: String
+    explanationEn: String
+}
