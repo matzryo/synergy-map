@@ -15,8 +15,8 @@ enum Rarity {
 
 type MtgCard {
     id: ID!
-    nameJa: String
-    nameEn: String!
+    nameJa: String @search(by: [regexp])
+    nameEn: String! @search(by: [regexp])
     imageUrlJa: String
     imageUrlEn: String!
     colors: [Color]!

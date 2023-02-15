@@ -45,7 +45,8 @@ mutation addTwoCard($input: [AddMtgCardInput!]!) {
   const addTwoCardsVariables = {
     input: [
       {
-        nameEn: "Test Card Name",
+        nameEn: "Test Card Names",
+        nameJa: "闇の剣士が走る",
         imageUrlEn:
           "https://cards.scryfall.io/small/front/1/f/1f0d2e8e-c8f2-4b31-a6ba-6283fc8740d4.jpg?1562433485",
         colors: ["WHITE"],
@@ -54,7 +55,8 @@ mutation addTwoCard($input: [AddMtgCardInput!]!) {
         collectorNumber: "1/001",
       },
       {
-        nameEn: "Test Card Name2",
+        nameEn: "Test Card Naming",
+        nameJa: "闇の戦士が走った",
         imageUrlEn:
           "https://cards.scryfall.io/small/front/9/e/9ea8179a-d3c9-4cdc-a5b5-68cc73279050.jpg?1562433485",
         colors: ["WHITE"],
@@ -111,5 +113,5 @@ const addSynergy = async (ids) => {
 
 const responseData = await addTwoCards();
 
-const cardIds = responseData.data.addMtgCard.mtgCard.map((card) => card.ID);
-addSynergy(cardIds);
+// const cardIds = responseData.data.addMtgCard.mtgCard.map((card) => card.ID);
+// addSynergy(cardIds);
