@@ -26,7 +26,8 @@ const request = (query, variables = {}) => {
 /**
  * カード二枚(テストデータ)を投入する
  * 
- * @returns {Promise<Response>} GraphQL ServerからのResponse
+ * @returns {Object} GraphQL ServerからのResponseをjsonメソッドでObject化したもの
+ * 
  */
 const addTwoCards = async () => {
   const addTwoCardsQuery = `
@@ -67,19 +68,27 @@ mutation addTwoCard($input: [AddMtgCardInput!]!) {
     ],
   };
 
-  const data = await request(addTwoCardsQuery, addTwoCardsVariables);
+  let addedCards, response;
+  try {
+    response = await request(addTwoCardsQuery, addTwoCardsVariables);
+    addedCards = await response.json();
+    // 投入データが不正なとき
+    if (addedCards.hasOwnProperty("errors")) {
+      const joinedErrorMessage = addedCards.errors?.map(e => e.message).join("\n");
+      throw new Error(`coudn't recorded: ${joinedErrorMessage}`)
+    }
+  } catch (err) {
+    console.log(`error occured: ${err}`)
+    throw err;
+  }
 
-  console.log("data returned:", data);
-
-  data.data.addMtgCard.mtgCard.forEach(console.log);
-
-  return data;
+  return addedCards;
 };
 
 /**
  * (作成済みの)二枚のカードの、テスト用シナジーデータを作成する
  * 
- * @returns {Promise<Response>} GraphQL ServerからのResponse
+ * @returns {Object} GraphQL ServerからのResponseをjsonメソッドでObject化したもの
  */
 const addSynergy = async (ids) => {
   const addSynergyQuery = `
@@ -102,16 +111,26 @@ const addSynergy = async (ids) => {
       },
     ],
   };
-  const data = await request(addSynergyQuery, addSynergyVariables);
 
-  console.log("data returned:", data);
+  let addedSynergy, response;
+  try {
+    response = await request(addSynergyQuery, addSynergyVariables);
+    addedSynergy = await response.json();
+    // 投入データが不正なとき
+    if (addedSynergy.hasOwnProperty("errors")) {
+      const joinedErrorMessage = addedSynergy.errors?.map(e => e.message).join("\n");
+      throw new Error(`coudn't recorded: ${joinedErrorMessage}`)
+    }
+  } catch (err) {
+    console.log(`error occured: ${err}`)
+    throw err;
+  }
 
-  data.data.addSynergy.synergy.forEach(console.log);
-
-  return data;
+  return addedSynergy;
 };
 
-const responseData = await addTwoCards();
+const addedCardsResponse = await addTwoCards();
+console.log(addedCardsResponse);
 
-// const cardIds = responseData.data.addMtgCard.mtgCard.map((card) => card.ID);
-// addSynergy(cardIds);
+const cardIds = addedCardsResponse.data.addMtgCard.mtgCard.map((card) => card.id);
+console.log(await addSynergy(cardIds));
