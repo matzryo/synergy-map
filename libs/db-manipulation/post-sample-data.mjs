@@ -1,36 +1,13 @@
-/**
- * バックエンド GraphQL API に問い合わせを行う
- * 
- * 現状はローカル開発サーバー決め打ち
- * 
- * @param {string} query GraphQLクエリ。
- * @param {Object} variables クエリ変数。
- * @returns {Promise<Response>} GraphQL ServerからのResponse
- */
-const request = (query, variables = {}) => {
-  const graphqlApiUrl = "http://localhost:8080/graphql";
-
-  return fetch(graphqlApiUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({
-      query,
-      variables,
-    }),
-  });
-};
+import { request } from "../requests/query-to-dgraph-graphql-api.mjs"
 
 /**
  * カード二枚(テストデータ)を投入する
- * 
+ *
  * @returns {Object} GraphQL ServerからのResponseをjsonメソッドでObject化したもの
- * 
+ *
  */
 const addTwoCards = async () => {
-  const addTwoCardsQuery = `
+  const query = `
 mutation addTwoCard($input: [AddMtgCardInput!]!) {
   addMtgCard(
     input: $input
@@ -43,7 +20,7 @@ mutation addTwoCard($input: [AddMtgCardInput!]!) {
 }
 `;
 
-  const addTwoCardsVariables = {
+  const variables = {
     input: [
       {
         nameEn: "Test Card Names",
@@ -70,15 +47,17 @@ mutation addTwoCard($input: [AddMtgCardInput!]!) {
 
   let addedCards, response;
   try {
-    response = await request(addTwoCardsQuery, addTwoCardsVariables);
+    response = await request({ query, variables });
     addedCards = await response.json();
     // 投入データが不正なとき
     if (addedCards.hasOwnProperty("errors")) {
-      const joinedErrorMessage = addedCards.errors?.map(e => e.message).join("\n");
-      throw new Error(`coudn't recorded: ${joinedErrorMessage}`)
+      const joinedErrorMessage = addedCards.errors
+        ?.map((e) => e.message)
+        .join("\n");
+      throw new Error(`coudn't recorded: ${joinedErrorMessage}`);
     }
   } catch (err) {
-    console.log(`error occured: ${err}`)
+    console.log(`error occured: ${err}`);
     throw err;
   }
 
@@ -87,11 +66,11 @@ mutation addTwoCard($input: [AddMtgCardInput!]!) {
 
 /**
  * (作成済みの)二枚のカードの、テスト用シナジーデータを作成する
- * 
+ *
  * @returns {Object} GraphQL ServerからのResponseをjsonメソッドでObject化したもの
  */
 const addSynergy = async (ids) => {
-  const addSynergyQuery = `
+  const query = `
   mutation addSynergy($input: [AddSynergyInput!]!) {
     addSynergy(input: $input) {
       synergy {
@@ -101,7 +80,7 @@ const addSynergy = async (ids) => {
     }
   }`;
 
-  const addSynergyVariables = {
+  const variables = {
     input: [
       {
         cards: ids.map((id) => ({ id })),
@@ -114,15 +93,17 @@ const addSynergy = async (ids) => {
 
   let addedSynergy, response;
   try {
-    response = await request(addSynergyQuery, addSynergyVariables);
+    response = await request({ query, variables });
     addedSynergy = await response.json();
     // 投入データが不正なとき
     if (addedSynergy.hasOwnProperty("errors")) {
-      const joinedErrorMessage = addedSynergy.errors?.map(e => e.message).join("\n");
-      throw new Error(`coudn't recorded: ${joinedErrorMessage}`)
+      const joinedErrorMessage = addedSynergy.errors
+        ?.map((e) => e.message)
+        .join("\n");
+      throw new Error(`coudn't recorded: ${joinedErrorMessage}`);
     }
   } catch (err) {
-    console.log(`error occured: ${err}`)
+    console.log(`error occured: ${err}`);
     throw err;
   }
 
@@ -132,5 +113,7 @@ const addSynergy = async (ids) => {
 const addedCardsResponse = await addTwoCards();
 console.log(addedCardsResponse);
 
-const cardIds = addedCardsResponse.data.addMtgCard.mtgCard.map((card) => card.id);
+const cardIds = addedCardsResponse.data.addMtgCard.mtgCard.map(
+  (card) => card.id
+);
 console.log(await addSynergy(cardIds));
