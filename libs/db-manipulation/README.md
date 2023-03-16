@@ -12,7 +12,7 @@
 ```sh
 cd PATH/TO/REPO
 cd libs/db-manipulation
-node index.mjs
+node post-sample-data.mjs
 ```
 
 # できること
