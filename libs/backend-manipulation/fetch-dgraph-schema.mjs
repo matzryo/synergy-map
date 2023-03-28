@@ -44,7 +44,7 @@ try {
       "..",
       "apps",
       "backend",
-      "src",
+      "schemas",
       "dgraph-schema.graphql"
     ),
     schema
