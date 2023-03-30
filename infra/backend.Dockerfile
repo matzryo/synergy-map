@@ -8,4 +8,4 @@ RUN npm i
 
 COPY . /app/
 
-CMD [ "npm", "start" ]
+# CMDは、環境別のcomposeファイルで各々指定する。
