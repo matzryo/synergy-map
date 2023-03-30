@@ -16,6 +16,7 @@ services:
       dockerfile: ../../infra/backend.Dockerfile
     ports:
       - 4000:4000
+    command: ["npm", "start"] # 実行commandは環境ごとに違うが、Dockerfileの方で定義する場合、変更の都度Buildが必要なためここで定義
   zero:
     image: dgraph/dgraph:latest
     volumes:
