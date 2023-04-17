@@ -4,6 +4,7 @@ services:
     volumes:
       - ../apps/backend/src:/app/src
       - ../apps/backend/dist:/app/dist
+      - ../apps/backend/resolvers:/app/resolvers
       - ../apps/backend/node_modules:/app/node_modules
       - ../apps/backend/package.json:/app/package.json
       - ../apps/backend/package-lock.json:/app/package-lock.json
