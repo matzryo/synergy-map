@@ -1,0 +1,8 @@
+# codegen.yml
+overwrite: true
+schema: "./schemas/dgraph-schema.graphql" # schema.graphqlがあるディレクトリ
+generates:
+  src/generated/types.ts: # 型定義ファイルを保存するディレクトリ
+    plugins:
+      - typescript
+      - typescript-resolvers
