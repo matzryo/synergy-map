@@ -1,4 +1,4 @@
-import { request } from "../requests/query-to-dgraph-graphql-api.mjs";
+import { request } from "../requests/query-to-dgraph-graphql-api.js";
 import { writeFileSync } from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";

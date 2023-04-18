@@ -1,0 +1,16 @@
+{
+  "name": "synergy-map-libraries",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "utilities for our apps.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.11",
+    "@types/node-fetch": "^2.6.3"
+  },
+  "dependencies": {
+    "@matzryo/hello-world": "^0.0.1"
+  }
+}
