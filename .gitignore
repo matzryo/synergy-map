@@ -1,3 +1,5 @@
+.env
+
 # エディタが自動生成するディレクトリ、ファイルたち
 .vscode/*
 !.vscode/extensions.json
