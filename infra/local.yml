@@ -4,10 +4,14 @@ services:
     volumes:
       - ../apps/backend/src:/app/src
       - ../apps/backend/dist:/app/dist
+      - ../apps/backend/resolvers:/app/resolvers
       - ../apps/backend/node_modules:/app/node_modules
       - ../apps/backend/package.json:/app/package.json
       - ../apps/backend/package-lock.json:/app/package-lock.json
     command: ["npm", "run", "dev"]
+    build:
+      args:
+        - NPM_TOKEN
   alpha:
     command: dgraph alpha --my=alpha:7080 --zero=zero:5080 --security whitelist=10.0.0.0/8,172.0.0.0/8,192.168.0.0/16,127.0.0.1
     

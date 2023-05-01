@@ -1,4 +1,4 @@
-import { request } from "../requests/query-to-dgraph-graphql-api.mjs"
+import { request } from "../requests/query-to-dgraph-graphql-api.js"
 
 /**
  * カード二枚(テストデータ)を投入する
