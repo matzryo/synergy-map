@@ -1,6 +1,6 @@
 {
   "name": "@matzryo/synergy-map-libraries",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "description": "utilities for our apps.",
   "main": "index.js",
