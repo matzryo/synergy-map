@@ -1,2 +1,7 @@
 import { Response } from 'node-fetch';
-export function request(query: string, variables: Object, graphqlApiUrl: string): Promise<Response>;
+type RequestOpts = {
+    query: string,
+    variables?: Record<string, any>,
+    graphqlApiUrl?: string
+}
+export function request({query, variables, graphqlApiUrl}: RequestOpts): Promise<Response>;
