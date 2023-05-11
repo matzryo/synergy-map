@@ -1,6 +1,8 @@
 # codegen.yml
 overwrite: true
-schema: "./schemas/dgraph-schema.graphql" # schema.graphqlがあるディレクトリ
+schema:
+  - "./schemas/dgraph-schema.graphql" # schema.graphqlがあるディレクトリ
+  - "./schemas/custom.graphql" # schema.graphqlがあるディレクトリ
 generates:
   src/generated/types.ts: # 型定義ファイルを保存するディレクトリ
     plugins:
