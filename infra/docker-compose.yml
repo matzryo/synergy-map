@@ -20,7 +20,7 @@ services:
   zero:
     image: dgraph/dgraph:latest
     volumes:
-      - /tmp/data:/dgraph
+      - dgraph-zero-data:/dgraph
     ports:
       - 5080:5080
       - 6080:6080
@@ -29,9 +29,12 @@ services:
   alpha:
     image: dgraph/dgraph:latest
     volumes:
-      - /tmp/data:/dgraph
+      - dgraph-alpha-data:/dgraph
     ports:
       - 8080:8080
       - 9080:9080
     restart: on-failure
     command: dgraph alpha --my=alpha:7080 --zero=zero:5080 --security whitelist=10.0.0.0/8,172.0.0.0/8,192.168.0.0/16,127.0.0.1
+volumes:
+  dgraph-alpha-data:
+  dgraph-zero-data:
