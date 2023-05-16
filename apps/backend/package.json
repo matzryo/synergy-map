@@ -20,8 +20,9 @@
     "@graphql-codegen/typescript-resolvers": "^3.1.1",
     "@graphql-tools/load-files": "^6.6.1",
     "@graphql-tools/merge": "^8.4.0",
-    "@matzryo/synergy-map-libraries": "^0.0.1",
-    "graphql": "^16.6.0"
+    "@matzryo/synergy-map-libraries": "^0.0.2",
+    "graphql": "^16.6.0",
+    "graphql-tag": "^2.12.6"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",

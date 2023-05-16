@@ -427,12 +427,18 @@ export type PolygonRef = {
 
 export type Query = {
   __typename?: 'Query';
+  SearchMtgCard: Array<Maybe<MtgCard>>;
   aggregateMtgCard?: Maybe<MtgCardAggregateResult>;
   aggregateSynergy?: Maybe<SynergyAggregateResult>;
   getMtgCard?: Maybe<MtgCard>;
   getSynergy?: Maybe<Synergy>;
   queryMtgCard?: Maybe<Array<Maybe<MtgCard>>>;
   querySynergy?: Maybe<Array<Maybe<Synergy>>>;
+};
+
+
+export type QuerySearchMtgCardArgs = {
+  searchString: Scalars['String'];
 };
 
 
@@ -1033,6 +1039,7 @@ export type PolygonResolvers<ContextType = any, ParentType extends ResolversPare
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  SearchMtgCard?: Resolver<Array<Maybe<ResolversTypes['MtgCard']>>, ParentType, ContextType, RequireFields<QuerySearchMtgCardArgs, 'searchString'>>;
   aggregateMtgCard?: Resolver<Maybe<ResolversTypes['MtgCardAggregateResult']>, ParentType, ContextType, Partial<QueryAggregateMtgCardArgs>>;
   aggregateSynergy?: Resolver<Maybe<ResolversTypes['SynergyAggregateResult']>, ParentType, ContextType, Partial<QueryAggregateSynergyArgs>>;
   getMtgCard?: Resolver<Maybe<ResolversTypes['MtgCard']>, ParentType, ContextType, RequireFields<QueryGetMtgCardArgs, 'id'>>;

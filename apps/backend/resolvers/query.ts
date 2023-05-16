@@ -1,41 +1,44 @@
-import { Resolvers, Color, Rarity } from '../src/generated/types.js';
-import { request } from '../../../libs/requests/query-to-dgraph-graphql-api.js';
-// import type { request } from '../../../libs/requests/query-to-dgraph-graphql-api.d';
-import { Response } from 'node-fetch'; // node-fetchを使う場合の例
-
-// export const mtgCardResolvers  = {
-//   Query: {
-//     queryMtgCard: 
-    // queryMtgCard: async (parent: any, args: any, context: any, info: any): Promise<MtgCard> => {
-    //   return getUserById(args.id);
-    // },
-//   },
-// };
-
-// declare function request(query: string, variables: Object, graphqlApiUrl: string): Promise<Response>;
+import { Resolvers } from "../src/generated/types.js";
+import { request } from "@matzryo/synergy-map-libraries";
+import { Response } from "node-fetch"; // node-fetchを使う場合の例
+import { gql } from 'graphql-tag';
+import { print } from "graphql";
 
 export const mtgCardResolvers: Resolvers = {
   Query: {
-    queryMtgCard: async () => {
-      return [{
-        id: "3",
-        nameEn: "hello",
-        collectorNumber: "1",
-        colors: [Color.White],
-        imageUrlEn: "https://example.com/hoge.jpg",
-        rarity: Rarity.Rare,
-        setcode: "ONE"
-      }]
+    SearchMtgCard: async (
+      _root: any,
+      { searchString }: { searchString: string }
+    ) => {
+      const regex = `/.*${searchString}.*/`;
+      const query = gql`query SearchMtgCards($searchString: String!) {
+        queryMtgCard(filter: {
+          or: [
+            {nameJa: {regexp: $searchString}},
+            {nameEn: {regexp: $searchString}}
+          ]
+        }) {
+          id
+          nameJa
+          nameEn
+          collectorNumber
+          colors
+          imageUrlEn
+          rarity
+          setcode
+        }
+      }`;
+      const variables = { searchString: regex };
+      const graphqlApiUrl = "http://alpha:8080/graphql";
+      let response: Response;
+      try {
+        response = await request({ query: print(query), variables, graphqlApiUrl });
+        const data = await response.json();
+        return data.data.queryMtgCard;
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
     },
-  }
-}
-
-// async function getUserById(id: string): Promise<User> {
-//   // ユーザーに関連するデータ取得ロジック
-//   // 以下はダミーデータを返す例
-//   return {
-//     id: '1',
-//     name: 'John Doe',
-//     age: 30,
-//   };
-// }
+  },
+};
