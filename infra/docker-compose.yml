@@ -14,13 +14,16 @@ services:
     build:
       context: ../apps/backend
       dockerfile: ../../infra/backend.Dockerfile
+      args:
+        - NPM_TOKEN
     ports:
       - 4000:4000
     command: ["npm", "start"] # 実行commandは環境ごとに違うが、Dockerfileの方で定義する場合、変更の都度Buildが必要なためここで定義
+    depends_on:
+      - alpha
+      - zero
   zero:
     image: dgraph/dgraph:latest
-    volumes:
-      - dgraph-zero-data:/dgraph
     ports:
       - 5080:5080
       - 6080:6080
@@ -35,26 +38,3 @@ services:
       - 9080:9080
     restart: on-failure
     command: dgraph alpha --my=alpha:7080 --zero=zero:5080 --security whitelist=10.0.0.0/8,172.0.0.0/8,192.168.0.0/16,127.0.0.1
-  zero-test:
-    image: dgraph/dgraph:latest
-    volumes:
-      - dgraph-zero-test-data:/dgraph
-    ports:
-      - 5081:5081
-      - 6081:6081
-    restart: on-failure
-    command: dgraph zero --my=zero-test:5081 --port_offset 1
-  alpha-test:
-    image: dgraph/dgraph:latest
-    volumes:
-      - dgraph-alpha-test-data:/dgraph
-    ports:
-      - 8081:8081
-      - 9081:9081
-    restart: on-failure
-    command: dgraph alpha --my=alpha-test:7081 --zero=zero-test:5081 --security whitelist=10.0.0.0/8,172.0.0.0/8,192.168.0.0/16,127.0.0.1 --port_offset 1
-volumes:
-  dgraph-alpha-data:
-  dgraph-zero-data:
-  dgraph-alpha-test-data:
-  dgraph-zero-test-data:

@@ -1,4 +1,3 @@
-# ローカル開発環境特有の設定
 services:
   apollo-server:
     volumes:
@@ -6,11 +5,11 @@ services:
     command: ["npm", "run", "dev"]
   zero:
     volumes:
-      - dgraph-zero-data:/dgraph
+      - dgraph-zero-test-data:/dgraph
   alpha:
     volumes:
-      - dgraph-alpha-data:/dgraph
-    
+      - dgraph-alpha-test-data:/dgraph
+
 volumes:
-  dgraph-alpha-data:
-  dgraph-zero-data:
+  dgraph-alpha-test-data:
+  dgraph-zero-test-data:
